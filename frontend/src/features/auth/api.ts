@@ -1,0 +1,4 @@
+import { authenticatedGet } from '../../services/api/client'; import type { AuthSession } from './types';
+const base=import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api';
+async function send(path:string,email:string,password:string){const response=await fetch(`${base}${path}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});if(!response.ok){const data=await response.json().catch(()=>null) as {message?:string}|null;throw new Error(data?.message??'Unable to continue. Please check your details.')}return response.json() as Promise<AuthSession>}
+export const authApi={register:(email:string,password:string)=>send('/auth/register',email,password),login:(email:string,password:string)=>send('/auth/login',email,password),meCart:(token:string)=>authenticatedGet<unknown>('/cart',token)};

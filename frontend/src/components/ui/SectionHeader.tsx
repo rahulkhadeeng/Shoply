@@ -1,0 +1,1 @@
+import { ArrowRight } from 'lucide-react'; export function SectionHeader({title,subtitle,action}:{title:string;subtitle:string;action?:string}){return <div className="section-header"><div><h2>{title}</h2><p>{subtitle}</p></div>{action&&<a href="#products" className="section-action">{action}<ArrowRight size={17}/></a>}</div>}

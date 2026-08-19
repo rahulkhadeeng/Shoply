@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: shoply-api
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/shoply}
+    username: ${SPRING_DATASOURCE_USERNAME:shoply}
+    password: ${SPRING_DATASOURCE_PASSWORD:shoply}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+server:
+  error:
+    include-stacktrace: never
+  port: ${SERVER_PORT:8080}
+shoply:
+  jwt:
+    secret: ${JWT_SECRET:change-this-development-secret-to-at-least-32-characters}
+    expiration-hours: 24

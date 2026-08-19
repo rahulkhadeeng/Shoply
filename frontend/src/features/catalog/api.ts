@@ -1,0 +1,2 @@
+import { get } from '../../services/api/client'; import type { Category, Product } from '../../types/catalog';
+export const catalogApi={ all:()=>get<Product[]>('/products'), featured:()=>get<Product[]>('/products/featured'), categories:()=>get<Category[]>('/categories'), product:(id:string)=>get<Product>(`/products/${id}`), search:(query:string)=>get<Product[]>(`/products/search?q=${encodeURIComponent(query)}`) };

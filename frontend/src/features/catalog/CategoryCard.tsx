@@ -1,0 +1,2 @@
+import { BookOpen, Dumbbell, House, Laptop, Shirt } from 'lucide-react'; import type { Category } from '../../types/catalog';
+const icons={Laptop,Shirt,House,Dumbbell,BookOpen}; export function CategoryCard({category}:{category:Category}){const Icon=icons[category.icon as keyof typeof icons]??Laptop;return <a className="category-card" href="#products"><span><Icon size={23}/></span><strong>{category.name}</strong><small>{category.itemCount.toLocaleString()} Items</small></a>}

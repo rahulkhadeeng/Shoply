@@ -1,0 +1,5 @@
+import { AtSign, Globe2, Heart, MessageCircle } from 'lucide-react';
+import { Logo } from './Logo';
+
+const groups = [['SHOP','All Products','About Us','Contact Center','Privacy Policy'],['COMPANY','About Us','Contact Center','Privacy Policy','Sizing Guides'],['SUPPORT','Contact Center','Privacy Policy','Sizing Guides','Press kit'],['LEGAL','Privacy Policy','Sizing Guides','Press kit','FAQ']];
+export function Footer(){return <footer><div className="footer-top"><div className="footer-brand"><Logo/><p>Your destination for premium quality tech, home goods, apparel, and books. Curated for the modern household.</p><div className="social"><AtSign/><Heart/><Globe2/><MessageCircle/></div></div>{groups.map(([title,...links])=><div className="footer-links" key={title}><h4>{title}</h4>{links.map(link=><a href="#top" key={link}>{link}</a>)}</div>)}</div><div className="footer-bottom"><span>© 2026 Shoply Inc. All rights reserved.</span><span className="payments">VISA&nbsp;&nbsp; Mastercard&nbsp;&nbsp; PayPal</span></div></footer>}
