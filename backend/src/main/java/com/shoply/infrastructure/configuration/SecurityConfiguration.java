@@ -24,7 +24,14 @@ public class SecurityConfiguration {
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedOrigins(List.of("http://localhost:5173"));
+    String envOrigins = System.getenv("SHOPLY_CORS_ALLOWED_ORIGINS");
+    if (envOrigins != null && !envOrigins.isEmpty()) {
+      java.util.ArrayList<String> origins = new java.util.ArrayList<>(List.of(envOrigins.split(",")));
+      origins.add("http://localhost:5173");
+      config.setAllowedOrigins(origins);
+    } else {
+      config.setAllowedOrigins(List.of("http://localhost:5173"));
+    }
     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
