@@ -14,7 +14,7 @@ spring:
 server:
   error:
     include-stacktrace: never
-  port: ${SERVER_PORT:8080}
+  port: ${PORT:${SERVER_PORT:8080}}
 shoply:
   jwt:
     secret: ${JWT_SECRET:3gWcDR89A4TPEhLZB4fkxJCCCYYGmzG0E9z+MCkX3jU=}
