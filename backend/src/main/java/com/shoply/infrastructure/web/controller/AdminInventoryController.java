@@ -1,0 +1,3 @@
+package com.shoply.infrastructure.web.controller;
+import com.shoply.application.dto.AdminInventoryDto; import com.shoply.application.service.AdminInventoryService; import jakarta.validation.constraints.Min; import java.util.*; import org.springframework.web.bind.annotation.*;
+@RestController @RequestMapping("/api/admin/inventory") public class AdminInventoryController {private final AdminInventoryService inventory;public AdminInventoryController(AdminInventoryService inventory){this.inventory=inventory;}@GetMapping public List<AdminInventoryDto> all(){return inventory.all();}@PutMapping("/{productId}") public void update(@PathVariable UUID productId,@RequestParam @Min(0) int quantity){inventory.update(productId,quantity);}}

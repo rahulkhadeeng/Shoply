@@ -16,7 +16,7 @@ class CatalogQueryServiceTest {
   @Test
   void returnsFeaturedProductsAsApplicationDtos() {
     Category category = new Category(UUID.randomUUID(), "Electronics", "electronics", "Laptop", 1);
-    Product product = new Product(UUID.randomUUID(), "Desk Lamp", "desk-lamp", "Warm light", new BigDecimal("49.00"), null, new BigDecimal("4.8"), "lamp.jpg", true, category);
+    Product product = new Product(UUID.randomUUID(), "Desk Lamp", "desk-lamp", "Warm light", new BigDecimal("49.00"), null, new BigDecimal("4.8"), "lamp.jpg", List.of("lamp.jpg"), true, category);
     ProductRepository products = new ProductRepository() {
       public List<Product> findAll() { return List.of(product); }
       public List<Product> findFeatured() { return List.of(product); }

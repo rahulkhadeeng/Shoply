@@ -3,5 +3,7 @@ import com.shoply.infrastructure.persistence.entity.ProductEntity;
 import java.util.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 public interface SpringDataProductRepository extends JpaRepository<ProductEntity, UUID> {
-  List<ProductEntity> findByFeaturedTrue(); List<ProductEntity> findByNameContainingIgnoreCase(String query);
+  List<ProductEntity> findByFeaturedTrue();
+  long countByCategoryId(UUID categoryId);
+  List<ProductEntity> findByNameContainingIgnoreCase(String query);
 }

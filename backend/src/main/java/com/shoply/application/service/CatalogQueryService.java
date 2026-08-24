@@ -13,6 +13,6 @@ public class CatalogQueryService {
   public ProductDto productById(UUID id) { return product(products.findById(id).orElseThrow(() -> new NoSuchElementException("Product not found"))); }
   public List<CategoryDto> categories() { return categories.findAll().stream().map(this::category).toList(); }
   public CategoryDto categoryById(UUID id) { return category(categories.findById(id).orElseThrow(() -> new NoSuchElementException("Category not found"))); }
-  private ProductDto product(Product p) { return new ProductDto(p.id(),p.name(),p.slug(),p.description(),p.price(),p.previousPrice(),p.rating(),p.imageUrl(),p.featured(),category(p.category())); }
+  private ProductDto product(Product p) { return new ProductDto(p.id(),p.name(),p.slug(),p.description(),p.price(),p.previousPrice(),p.rating(),p.imageUrl(),p.imageUrls(),p.featured(),category(p.category())); }
   private CategoryDto category(Category c) { return new CategoryDto(c.id(),c.name(),c.slug(),c.icon(),c.itemCount()); }
 }

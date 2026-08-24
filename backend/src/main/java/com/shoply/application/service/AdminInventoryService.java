@@ -1,0 +1,5 @@
+package com.shoply.application.service;
+import com.shoply.application.dto.AdminInventoryDto;
+import com.shoply.infrastructure.persistence.repository.*;
+import java.util.List;
+public class AdminInventoryService {private final SpringDataInventoryRepository inventory;private final SpringDataProductRepository products;public AdminInventoryService(SpringDataInventoryRepository inventory,SpringDataProductRepository products){this.inventory=inventory;this.products=products;}public List<AdminInventoryDto> all(){return inventory.findAll().stream().map(i->{var p=products.findById(i.getProductId()).orElseThrow();return new AdminInventoryDto(i.getProductId(),p.getName(),p.getCategory().getName(),i.getQuantity());}).toList();}public void update(java.util.UUID productId,int quantity){if(quantity<0)throw new IllegalArgumentException("Inventory cannot be negative");var item=inventory.findById(productId).orElseThrow(()->new java.util.NoSuchElementException("Inventory item not found"));item.setQuantity(quantity);inventory.save(item);}}
