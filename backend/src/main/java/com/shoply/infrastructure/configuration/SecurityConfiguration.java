@@ -39,7 +39,7 @@ public class SecurityConfiguration {
       .cors(cors -> {})
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/api/auth/**", "/api/products", "/api/products/**", "/api/categories", "/api/categories/**").permitAll()
+        .requestMatchers("/", "/api/auth/**", "/api/products", "/api/products/**", "/api/categories", "/api/categories/**").permitAll()
         .requestMatchers("/api/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated())
       .addFilterBefore(jwt, UsernamePasswordAuthenticationFilter.class)
