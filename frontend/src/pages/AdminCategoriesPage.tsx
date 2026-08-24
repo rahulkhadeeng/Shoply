@@ -5,8 +5,7 @@ import { Button } from '../components/ui/Button';
 import { useAuth } from '../features/auth/AuthContext';
 import { catalogApi } from '../features/catalog/api';
 import type { Category } from '../types/catalog';
-
-const apiBase = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api';
+import { API_BASE } from '../services/api/client';
 
 export function AdminCategoriesPage() {
   const { session } = useAuth();
@@ -23,7 +22,7 @@ export function AdminCategoriesPage() {
     event.preventDefault(); setError('');
     const form = new FormData(event.currentTarget);
     try {
-      const response = await fetch(`${apiBase}/admin/categories`, {
+      const response = await fetch(`${API_BASE}/admin/categories`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ name: form.get('name'), slug: form.get('slug'), icon: form.get('icon') })
       });
@@ -35,7 +34,7 @@ export function AdminCategoriesPage() {
   async function remove(id: string) {
     if (!window.confirm('Delete this category? Products assigned to it must be moved first.')) return;
     try {
-      const response = await fetch(`${apiBase}/admin/categories/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      const response = await fetch(`${API_BASE}/admin/categories/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
       if (!response.ok) throw new Error();
       load();
     } catch { setError('This category could not be deleted because it may still contain products.'); }

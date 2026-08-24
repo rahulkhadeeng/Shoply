@@ -6,8 +6,7 @@ import { ProductImagesDropzone } from '../components/ui/ProductImagesDropzone';
 import { useAuth } from '../features/auth/AuthContext';
 import { catalogApi } from '../features/catalog/api';
 import type { Category } from '../types/catalog';
-
-const apiBase = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api';
+import { API_BASE } from '../services/api/client';
 const slugify = (value: string) => value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 const uniqueSlug = (name: string) => `${slugify(name)}-${Date.now().toString().slice(-8)}`;
 
@@ -30,15 +29,15 @@ export function AdminProductsPageV2() {
     try {
       const form = new FormData(formElement);
       const uploadData = new FormData(); selectedImages.forEach((image) => uploadData.append('files', image));
-      const upload = await fetch(`${apiBase}/admin/uploads/product-images`, { method: 'POST', headers: { Authorization: `Bearer ${session.token}` }, body: uploadData });
+      const upload = await fetch(`${API_BASE}/admin/uploads/product-images`, { method: 'POST', headers: { Authorization: `Bearer ${session.token}` }, body: uploadData });
       const uploadResult = await upload.json().catch(() => null);
       if (!upload.ok || !uploadResult?.urls?.length) throw new Error(uploadResult?.message ?? 'Image upload failed.');
       const name = String(form.get('name') ?? '');
       const body = { name, slug: uniqueSlug(name), description: form.get('description'), price: Number(form.get('price')), previousPrice: form.get('previousPrice') ? Number(form.get('previousPrice')) : null, rating: Number(form.get('rating')), imageUrl: uploadResult.urls[0], featured: form.get('featured') === 'on', categoryId: form.get('categoryId'), inventoryQuantity: Number(form.get('inventoryQuantity')) };
-      const created = await fetch(`${apiBase}/admin/products`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.token}` }, body: JSON.stringify(body) });
+      const created = await fetch(`${API_BASE}/admin/products`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.token}` }, body: JSON.stringify(body) });
       const product = await created.json().catch(() => null);
       if (!created.ok || !product?.id) throw new Error(product?.message ?? 'Product could not be saved.');
-      const imagesSaved = await fetch(`${apiBase}/admin/products/${product.id}/images`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.token}` }, body: JSON.stringify({ imageUrls: uploadResult.urls }) });
+      const imagesSaved = await fetch(`${API_BASE}/admin/products/${product.id}/images`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.token}` }, body: JSON.stringify({ imageUrls: uploadResult.urls }) });
       if (!imagesSaved.ok) { const imageError = await imagesSaved.json().catch(() => null); throw new Error(imageError?.message ?? 'Product was created, but its image list could not be saved.'); }
       formElement.reset(); setSelectedImages([]); setFormVersion((version) => version + 1); window.dispatchEvent(new Event('shoply:catalog-updated')); setMessage('Product and all images were saved successfully. It is now available in the catalog.');
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'Product creation failed.'); } finally { setSaving(false); }
