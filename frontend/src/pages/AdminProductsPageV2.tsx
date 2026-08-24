@@ -25,7 +25,7 @@ export function AdminProductsPageV2() {
   if (session.role !== 'ADMIN') return <Navigate to="/profile" replace />;
 
   async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); const formElement = event.currentTarget; setSaving(true); setError(''); setMessage('');
+    event.preventDefault(); if (!session) return; const formElement = event.currentTarget; setSaving(true); setError(''); setMessage('');
     if (!selectedImages.length) { setSaving(false); setError('Select at least one product image.'); return; }
     try {
       const form = new FormData(formElement);
