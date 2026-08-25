@@ -45,6 +45,15 @@
   gap: 16px;
 }
 
+.categories-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
 .categories-form-actions {
   display: flex;
   gap: 10px;
